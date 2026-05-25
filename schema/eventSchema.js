@@ -12,13 +12,13 @@ const channelSchema = new mongoose.Schema({
 const eventSchema = new mongoose.Schema({
   id: {
     type: String,
-    default: () => uuidv4(),
-    unique: true
+    unique: true,
+    sparse: true
   },
   title: { type: String, required: true },
   image: { type: String, default: 'o' },
   category: { type: String, required: true },
-  eventType: { type: String, required: true },
+  eventType: { type: String, required: true }, 
   publish: { type: String, default: '1' },
   adsLimit: { type: String, default: '0' },
   eventInfo: {
@@ -28,7 +28,6 @@ const eventSchema = new mongoose.Schema({
     teamBFlag: { type: String },
     eventName: { type: String },
     eventBanner: { type: String },
-    eventType: { type: String },
     isHot: { type: String, default: '0' },
     startTime: { type: String },
     endTime: { type: String }
@@ -36,10 +35,27 @@ const eventSchema = new mongoose.Schema({
   channels: [channelSchema]
 }, {
   timestamps: true,
-  versionKey: false  // removes __v
+  versionKey: false
 });
 
-// Remove _id from all responses
+// ✅ Pre-save hook দিয়ে id generate করো
+eventSchema.pre('save', function(next) {
+  if (!this.id) {
+    this.id = uuidv4();
+  }
+  next();
+});
+
+// insertMany এর জন্য pre-insertMany hook
+eventSchema.pre('insertMany', function(next, docs) {
+  docs.forEach(doc => {
+    if (!doc.id) {
+      doc.id = uuidv4();
+    }
+  });
+  next();
+});
+
 eventSchema.set('toJSON', {
   transform: (doc, ret) => {
     delete ret._id;
