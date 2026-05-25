@@ -8,11 +8,21 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^7.8.9",
-    "nodemon": "^3.1.14"
-  }
+    "nodemon": "^3.1.14",
+    "uuid": "^9.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShahinAlamK/crazy-sports.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ShahinAlamK/crazy-sports/issues"
+  },
+  "homepage": "https://github.com/ShahinAlamK/crazy-sports#readme",
+  "description": ""
 }
