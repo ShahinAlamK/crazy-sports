@@ -6,6 +6,9 @@ const channelSchema = new mongoose.Schema({
   link: String,
   api: String,
   type: String
+},{
+  versionKey: false,
+  _id: false
 });
 
 const eventSchema = new mongoose.Schema({
@@ -16,11 +19,11 @@ const eventSchema = new mongoose.Schema({
   publish: { type: String, default: '1' },
   adsLimit: { type: String, default: '0' },
   eventInfo: {
-    teamA: { type: String },
-    teamB: { type: String },
-    teamAFlag: { type: String },
-    teamBFlag: { type: String },
-    eventName: { type: String },
+    teamA: { type: String, required: true },
+    teamB: { type: String, required: true },
+    teamAFlag: { type: String, required: true },
+    teamBFlag: { type: String, required: true },
+    eventName: { type: String, required: true },
     eventBanner: { type: String },
     isHot: { type: String, default: '0' },
     startTime: { type: String },

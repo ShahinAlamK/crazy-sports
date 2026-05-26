@@ -7,7 +7,7 @@ const router = express.Router();
 const getAllEvents = async (req, res) => {
   try {
     const events = await Event.find();
-    const social = await Social.find();
+    const social = await Social.findOne();
     res.json({
       Authors: "Crazy Sports",
       social,
