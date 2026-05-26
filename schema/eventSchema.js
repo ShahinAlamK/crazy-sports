@@ -6,6 +6,8 @@ const channelSchema = new mongoose.Schema({
   link: { type: String, default: '' },
   api: { type: String, default: '' },
   type: { type: String, default: '' }
+},{
+  _id: false
 });
 
 const eventSchema = new mongoose.Schema({
