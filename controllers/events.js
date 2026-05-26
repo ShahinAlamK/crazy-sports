@@ -1,18 +1,18 @@
 const express = require('express');
 const Event = require('../schema/eventSchema');
+const Social = require('../schema/socialSchema');
 const router = express.Router();
 
 // GET all events
 const getAllEvents = async (req, res) => {
   try {
     const events = await Event.find();
+    const social = await Social.find();
     res.json({
       Authors: "Crazy Sports",
-      Telegram: "https://t.me/crazy_sports",
-      Instagram: "https://www.instagram.com/crazy_sports_/",
-      Facebook: "https://www.facebook.com/profile.php?id=100089441086644",
-      Twitter: "https://twitter.com/CrazySports_",
+      social,
       totalEvents: events.length,
+      LastUpdate: new Date(),
       events
     });
   } catch (error) {

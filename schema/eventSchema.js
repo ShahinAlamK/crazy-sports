@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
 
 const channelSchema = new mongoose.Schema({
   title: String,
@@ -7,18 +6,13 @@ const channelSchema = new mongoose.Schema({
   link: String,
   api: String,
   type: String
-}, { _id: false });
+});
 
 const eventSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    unique: true,
-    sparse: true
-  },
   title: { type: String, required: true },
   image: { type: String, default: 'o' },
   category: { type: String, required: true },
-  eventType: { type: String, required: true }, 
+  eventType: { type: String,default: 'null' }, 
   publish: { type: String, default: '1' },
   adsLimit: { type: String, default: '0' },
   eventInfo: {
@@ -38,26 +32,9 @@ const eventSchema = new mongoose.Schema({
   versionKey: false
 });
 
-// ✅ Pre-save hook দিয়ে id generate করো
-eventSchema.pre('save', function(next) {
-  if (!this.id) {
-    this.id = uuidv4();
-  }
-  next();
-});
-
-// insertMany এর জন্য pre-insertMany hook
-eventSchema.pre('insertMany', function(next, docs) {
-  docs.forEach(doc => {
-    if (!doc.id) {
-      doc.id = uuidv4();
-    }
-  });
-  next();
-});
-
 eventSchema.set('toJSON', {
   transform: (doc, ret) => {
+    ret.id = ret._id.toString();
     delete ret._id;
     return ret;
   }
