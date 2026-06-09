@@ -2,7 +2,8 @@ const Channel = require('../schema/channelSchema');
 
 exports.createChannel = async (req, res) => {
   try {
-    const channel = await Channel.createChannel(req.body);
+    const channel = new Channel(req.body);
+    await channel.save();
     res.status(201).json(channel);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -11,7 +12,7 @@ exports.createChannel = async (req, res) => {
 
 exports.getAllChannels = async (req, res) => {
   try {
-    const channels = await Channel.getAllChannels();
+    const channels = await Channel.find();
     res.json(channels);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -20,7 +21,7 @@ exports.getAllChannels = async (req, res) => {
 
 exports.getChannelById = async (req, res) => {
   try {
-    const channel = await Channel.getChannelById(req.params.id);
+    const channel = await Channel.findById(req.params.id);
     if (!channel) return res.status(404).json({ message: 'Channel not found' });
     res.json(channel);
   } catch (error) {
@@ -30,7 +31,7 @@ exports.getChannelById = async (req, res) => {
 
 exports.updateChannel = async (req, res) => {
   try {
-    const channel = await Channel.updateChannel(req.params.id, req.body);
+    const channel = await Channel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!channel) return res.status(404).json({ message: 'Channel not found' });
     res.json(channel);
   } catch (error) {
@@ -40,7 +41,7 @@ exports.updateChannel = async (req, res) => {
 
 exports.deleteChannel = async (req, res) => {
   try {
-    const channel = await Channel.deleteChannel(req.params.id);
+    const channel = await Channel.findByIdAndDelete(req.params.id);
     if (!channel) return res.status(404).json({ message: 'Channel not found' });
     res.json({ message: 'Channel deleted successfully' });
   } catch (error) {
