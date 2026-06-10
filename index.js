@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const eventRoutes = require('./routes/eventRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const channelRoutes = require('./routes/channelRoute');
+const appConfigRoutes = require('./routes/configRoute'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/events', eventRoutes);
 app.use('/api/channels', channelRoutes);
+app.use('/api/config', appConfigRoutes);
 
 // Error Handler
 app.use(errorHandler);
