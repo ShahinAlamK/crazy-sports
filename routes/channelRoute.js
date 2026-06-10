@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const channelController = require('../controllers/channelController');
+const {
+  createChannel,
+  getAllChannels,
+  getChannelById,
+  updateChannel,
+  deleteChannel,
+  updateChannelStatus
+} = require('../controllers/channelController');
 
-// Public Routes
-router.get('/channels', channelController.getAllChannels);
-router.get('/channels/:id', channelController.getChannelById);
-
-// Admin Routes
-router.post('/channels', channelController.createChannel);
-router.put('/channels/:id', channelController.updateChannel);
-router.delete('/channels/:id', channelController.deleteChannel);
+router.post('/', createChannel);
+router.get('/', getAllChannels);
+router.get('/:id', getChannelById);
+router.put('/:id', updateChannel);
+router.delete('/:id', deleteChannel);
+router.patch('/:id/status', updateChannelStatus);
 
 module.exports = router;
