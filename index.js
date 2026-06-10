@@ -1,21 +1,28 @@
-require('dotenv').config();
-const express = require('express');
-const connectDB = require('./config/db');
-const eventRoutes = require('./routes/eventRoutes');
-const channelRoutes = require('./routes/channelRoute');
+require('dotenv').config(); // ← এটা সবার উপরে থাকতে হবে
 
+const express = require('express');
+const mongoose = require('mongoose');
+const eventRoutes = require('./routes/eventRoutes');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI;
+
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-connectDB();
+// Routes
+app.use('/api/events', eventRoutes);
 
-app.use('/api', eventRoutes);
-app.use('/api', channelRoutes);
+// Error Handler
+app.use(errorHandler);
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the Event Management API');
-});
-
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// MongoDB Connect
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('MongoDB connected ✅');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
+  })
+  .catch(err => console.error('MongoDB connection error:', err));

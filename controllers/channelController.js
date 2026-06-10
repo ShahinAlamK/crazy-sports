@@ -1,8 +1,12 @@
-const Channel = require('../schema/channelSchema');
+const express = require('express');
+const router = express.Router();
+const channel = require('../schema/channelSchema');
+
+
 
 exports.createChannel = async (req, res) => {
   try {
-    const channel = new Channel(req.body);
+    const channel = new channel(req.body);
     await channel.save();
     res.status(201).json(channel);
   } catch (error) {
@@ -12,7 +16,7 @@ exports.createChannel = async (req, res) => {
 
 exports.getAllChannels = async (req, res) => {
   try {
-    const channels = await Channel.find();
+    const channels = await channel.find();
     res.json(channels);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -21,7 +25,7 @@ exports.getAllChannels = async (req, res) => {
 
 exports.getChannelById = async (req, res) => {
   try {
-    const channel = await Channel.findById(req.params.id);
+    const channel = await channel.findById(req.params.id);
     if (!channel) return res.status(404).json({ message: 'Channel not found' });
     res.json(channel);
   } catch (error) {

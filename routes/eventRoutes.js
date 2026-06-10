@@ -1,22 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const {
+  createEvent,
   getAllEvents,
   getEventById,
-  getCategoryEvents,
-  createEvent,
   updateEvent,
-  deleteEvent
-} = require('../controllers/events');
+  deleteEvent,
+  addChannel,
+  removeChannel
+} = require('../controllers/eventsController');
 
-// Public Routes
-router.get('/events', getAllEvents);
-router.get('/events/:id', getEventById);
-router.get('/categories', getCategoryEvents);
-
-// Admin Routes
-router.post('/events', createEvent);
-router.put('/events/:id', updateEvent);
-router.delete('/events/:id', deleteEvent);
+router.post('/', createEvent);
+router.get('/', getAllEvents);
+router.get('/:id', getEventById);
+router.put('/:id', updateEvent);
+router.delete('/:id', deleteEvent);
+router.post('/:id/channels', addChannel);
+router.delete('/:id/channels/:link', removeChannel);
 
 module.exports = router;
